@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Tweets;
 
+use App\Events\Tweets\TweetWasCreated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Tweets\TweetStoreRequest;
 use Illuminate\Http\Request;
@@ -17,6 +18,8 @@ class TweetController extends Controller
     {
         //validation 
 
-        $request->user()->tweets()->create($request->only('body'));
+        $tweet = $request->user()->tweets()->create($request->only('body'));
+
+        broadcast(new TweetWasCreated($tweet));
     }
 }
