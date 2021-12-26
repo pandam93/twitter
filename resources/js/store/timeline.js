@@ -15,9 +15,14 @@ export default {
 
     },
 
+    // Filtering tweets that are already visible
     mutations: {
         PUSH_TWEETS(state, data) {
-            state.tweets.push(...data)
+            state.tweets.push(
+                ...data.filter((tweets) => {
+                    return !state.tweets.map((t) => t.id).includes(tweet.id)
+                })
+                )
         }
     },
 
